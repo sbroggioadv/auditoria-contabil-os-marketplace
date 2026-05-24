@@ -1,0 +1,18 @@
+{
+  "$schema": "https://anthropic.com/claude-code/marketplace.schema.json",
+  "name": "auditoria-contabil-os-marketplace",
+  "description": "Marketplace oficial do plugin Auditoria Contabil OS — sistema operacional da contabilidade brasileira no Claude Code.",
+  "owner": {
+    "name": "Sbroggio Advocacia & IA Combativa"
+  },
+  "plugins": [
+    {
+      "name": "auditoria-contabil-os",
+      "source": "./auditoria-contabil-os",
+      "description": "Plugin Claude Code para a contabilidade brasileira completa — atende clientes PJ e PF. Nucleo fiscal operacional: apuracoes tributarias (Simples, Lucro Presumido, Lucro Real, MEI, ICMS, ISS, IPI, PIS/COFINS, folha), obrigacoes acessorias e SPED (ECD, ECF, EFD, DCTFWeb), ingestao de arquivos XML/OFX/CSV, validacao de legislacao vigente nos tres niveis (federal, estadual, municipal) com eixo de localizacao por municipio/UF. Governanca de 4 Camadas, 20 Proibicoes Absolutas, 6 Protocolos Tecnicos e Revisao Tecnica R1-R4. 33 skills na v0.1 (Tier 0-3 + transversais). Onboarding via /start-auditoria-contabil. Configuravel ao perfil do escritorio contabil em runtime.",
+      "author": {
+        "name": "Sbroggio Advocacia & IA Combativa"
+      }
+    }
+  ]
+}

@@ -1,0 +1,461 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "schemas/cowork-state.json",
+  "title": "Cowork State - Plugin Auditoria Contabil OS",
+  "description": "Estado persistente do workspace COWORK do usuario-cliente. Vive em <COWORK>/auditoria-contabil/cowork-state.json. Atualizado a cada /start-auditoria-contabil ou comando que modifica configuracao. Plugin operacional para a contabilidade brasileira completa - apuracoes tributarias, obrigacoes acessorias/SPED, folha/DP, escrituracao e auditoria, atendendo clientes PJ e PF.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "created_at",
+    "updated_at",
+    "identity",
+    "cowork_path",
+    "areas",
+    "skills",
+    "revisao_tecnica",
+    "tom_voz"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "pattern": "^\\d+\\.\\d+\\.\\d+$",
+      "description": "Versao do schema. SemVer. Usado para migrations."
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "ISO 8601 UTC. Timestamp do primeiro /start."
+    },
+    "updated_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "ISO 8601 UTC. Timestamp da ultima modificacao."
+    },
+    "plugin_version": {
+      "type": "string",
+      "pattern": "^\\d+\\.\\d+\\.\\d+(-[a-z0-9.]+)?$",
+      "description": "Versao do plugin que criou/atualizou este state."
+    },
+    "identity": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["firm_name", "firm_slug", "contador_nome"],
+      "properties": {
+        "firm_name": {
+          "type": "string",
+          "minLength": 2,
+          "maxLength": 200,
+          "description": "Nome do escritorio contabil como aparece em relatorios e pareceres."
+        },
+        "firm_slug": {
+          "type": "string",
+          "pattern": "^[a-z0-9-]+$",
+          "minLength": 2,
+          "maxLength": 50,
+          "description": "Slug para paths/IDs. Ex: 'silva-contabil'."
+        },
+        "contador_nome": {
+          "type": "string",
+          "minLength": 2,
+          "maxLength": 200,
+          "description": "Nome completo do contador responsavel tecnico."
+        },
+        "crc_numero": {
+          "type": ["string", "null"],
+          "pattern": "^[0-9./-]+$",
+          "description": "Registro no CRC (digitos, pontos, barras e hifens). Opcional."
+        },
+        "crc_uf": {
+          "type": ["string", "null"],
+          "pattern": "^[A-Z]{2}$",
+          "description": "UF do CRC. Ex: 'SP', 'RJ'. Opcional."
+        },
+        "municipio": {
+          "type": ["string", "null"],
+          "maxLength": 100,
+          "description": "Municipio-sede do escritorio. Eixo do ISS e de obrigacoes municipais (Protocolo 5)."
+        },
+        "uf": {
+          "type": ["string", "null"],
+          "pattern": "^[A-Z]{2}$",
+          "description": "UF-sede do escritorio. Eixo do ICMS e de obrigacoes estaduais (Protocolo 5)."
+        },
+        "email": {
+          "type": ["string", "null"],
+          "format": "email",
+          "description": "Email de contato do escritorio (relatorios, pareceres)."
+        },
+        "telefone": {
+          "type": ["string", "null"],
+          "maxLength": 30
+        },
+        "endereco": {
+          "type": ["string", "null"],
+          "maxLength": 500
+        }
+      }
+    },
+    "cowork_path": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Path absoluto da pasta COWORK do usuario."
+    },
+    "persona_path": {
+      "type": "string",
+      "description": "Path absoluto do arquivo de persona. Normalmente <cowork_path>/auditoria-contabil/persona.md"
+    },
+    "tom_voz": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["perfil", "intensidade_combativa"],
+      "properties": {
+        "perfil": {
+          "type": "string",
+          "enum": ["tecnico-objetivo", "tecnico-didatico", "tecnico-cordial", "personalizado"],
+          "default": "tecnico-objetivo",
+          "description": "Perfil de tom de voz. Default 'tecnico-objetivo'. 'personalizado' = usuario compos manualmente."
+        },
+        "intensidade_combativa": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 10,
+          "default": 4,
+          "description": "Intensidade 0-10 do tom assertivo. 0 = puramente didatico-cordial. 10 = maximo direto. Ajustavel dinamicamente."
+        },
+        "postura_default": {
+          "type": "string",
+          "description": "Postura default em relatorios e comunicacoes. Frase curta. Ex: 'conservadorismo no diagnostico de credito; sempre apontar divergencia'."
+        },
+        "expressoes_assinatura": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "Expressoes caracteristicas que o contador quer ver nos relatorios (opt-in, user-provided)."
+        },
+        "termos_a_evitar": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "Palavras/expressoes que o contador NAO quer ver nos outputs."
+        }
+      }
+    },
+    "areas": {
+      "type": "array",
+      "description": "Frentes de atuacao ATIVAS. Cada uma gera uma pasta <cowork_path>/<area>/ com CLAUDE.md e MEMORY.md.",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["slug", "display_name"],
+        "properties": {
+          "slug": {
+            "type": "string",
+            "pattern": "^[A-Z_-]+(/[A-Z_-]+)*$",
+            "description": "Slug em CAIXA-ALTA com hifen e/ou barra. Ex: 'FISCAL', 'FOLHA-DP', 'ESCRITURACAO'."
+          },
+          "display_name": {
+            "type": "string",
+            "description": "Nome amigavel. Ex: 'Fiscal', 'Folha e Departamento Pessoal'."
+          },
+          "frente": {
+            "type": "string",
+            "enum": [
+              "fiscal",
+              "obrigacoes-acessorias",
+              "folha-dp",
+              "escrituracao",
+              "pessoa-fisica",
+              "auditoria",
+              "recuperacao",
+              "operacional-societario"
+            ],
+            "default": "fiscal",
+            "description": "Frente contabil da area (ver Tiers da arquitetura)."
+          },
+          "sujeito_predominante": {
+            "type": ["string", "null"],
+            "enum": ["PJ", "PF", "ambos", null],
+            "description": "Sujeito que o escritorio atende predominantemente nessa frente."
+          },
+          "subfolders": {
+            "type": "array",
+            "items": { "type": "string" },
+            "default": ["Clientes", "Apuracoes", "Arquivos", "Relatorios", "Pareceres"],
+            "description": "Subpastas criadas dentro de <cowork>/<area>/."
+          },
+          "skills_sugeridas": {
+            "type": "array",
+            "items": { "type": "string" },
+            "description": "Skills sugeridas para esta frente (usado pelo wizard na selecao de skills)."
+          },
+          "activated_at": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      }
+    },
+    "skills": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["invariants", "opt_in_active", "opt_in_inactive"],
+      "description": "Skills ativas/inativas. Invariantes sao SEMPRE ativas (nao-removiveis).",
+      "properties": {
+        "invariants": {
+          "type": "array",
+          "description": "Skills SEMPRE ativas (nao-removiveis): auditoria-contabil-master (Tier 0 - orquestracao + 20 PAs + 4 Camadas + 6 Protocolos) + validador-legislacao-vigente (Tier 0 - validacao de vigencia federal/estadual/municipal + CARF/enunciados, emite o Selo de Validacao Legal Previa) + revisao-final (auditoria de qualidade R1-R4) + estilo-entrega-contabil (padrao de relatorio e memoria de calculo) + memoria-de-caso-contabil (compartimentacao de casos por cliente). Escape session-only da Revisao Tecnica via /revisao off.",
+          "items": { "type": "string" },
+          "default": [
+            "auditoria-contabil-master",
+            "validador-legislacao-vigente",
+            "revisao-final",
+            "estilo-entrega-contabil",
+            "memoria-de-caso-contabil"
+          ]
+        },
+        "opt_in_active": {
+          "type": "array",
+          "description": "Skills opt-in que o usuario escolheu ativar no wizard.",
+          "items": { "type": "string" }
+        },
+        "opt_in_inactive": {
+          "type": "array",
+          "description": "Skills opt-in que o usuario optou por NAO ativar (lembrado para re-oferecer depois).",
+          "items": { "type": "string" }
+        }
+      }
+    },
+    "revisao_tecnica": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["enabled", "bypass_threshold_words"],
+      "description": "Camada de auditoria de qualidade R1-R4 (skill revisao-final) sobre toda entrega antes de devolver ao usuario.",
+      "properties": {
+        "enabled": {
+          "type": "boolean",
+          "default": true,
+          "description": "Revisao Tecnica ativa por default. Pode ser desativada via /revisao off (session toggle)."
+        },
+        "bypass_threshold_words": {
+          "type": "integer",
+          "minimum": 0,
+          "default": 200,
+          "description": "Tarefas com output < N palavras recebem sugestao de bypass. 0 = nunca sugerir bypass."
+        },
+        "auto_apply_to": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": ["apuracoes", "relatorios", "pareceres", "obrigacoes", "decks", "tudo"]
+          },
+          "default": ["apuracoes", "relatorios", "pareceres"],
+          "description": "Tipos de entrega em que a Revisao Tecnica R1-R4 e aplicada automaticamente."
+        }
+      }
+    },
+    "tools": {
+      "type": "object",
+      "description": "Ferramentas externas proprias do escritorio contabil que o usuario ja utiliza. Cada campo e opt-in - pode ser null/string vazia se nao usado. Skills leem esses campos para adaptar recomendacoes sem hardcoding de produtos especificos.",
+      "additionalProperties": false,
+      "properties": {
+        "sistema_contabil": {
+          "type": ["string", "null"],
+          "maxLength": 100,
+          "description": "Nome livre do sistema/ERP contabil utilizado pelo escritorio (escrituracao, apuracao, geracao de SPED). Plugin nao recomenda produto - apenas registra o que o usuario informar."
+        },
+        "emissor_fiscal": {
+          "type": ["string", "null"],
+          "maxLength": 100,
+          "description": "Nome livre do emissor de documentos fiscais ou software de gestao fiscal utilizado."
+        },
+        "tarefas_projetos": {
+          "type": ["string", "null"],
+          "maxLength": 100,
+          "description": "Nome livre da ferramenta de gestao de tarefas e prazos do escritorio."
+        },
+        "crm_leads": {
+          "type": ["string", "null"],
+          "maxLength": 100,
+          "description": "Nome livre do CRM utilizado para leads e relacionamento com clientes."
+        },
+        "email_provider": {
+          "type": ["string", "null"],
+          "maxLength": 100,
+          "description": "Nome livre do provedor de email institucional do escritorio."
+        },
+        "banco_psp": {
+          "type": ["string", "null"],
+          "maxLength": 100,
+          "description": "Nome livre do banco ou PSP utilizado para cobranca e pagamentos do escritorio."
+        },
+        "armazenamento_nuvem": {
+          "type": ["string", "null"],
+          "maxLength": 100,
+          "description": "Nome livre do servico de armazenamento em nuvem. Atencao: NAO e recomendado colocar a pasta COWORK dentro de pasta sincronizada (conflito com git/hooks e risco LGPD)."
+        },
+        "assinatura_digital": {
+          "type": ["string", "null"],
+          "maxLength": 100,
+          "description": "Nome livre da plataforma de assinatura digital / certificado digital utilizada."
+        },
+        "outras": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["nome", "categoria"],
+            "properties": {
+              "nome": { "type": "string", "maxLength": 100 },
+              "categoria": { "type": "string", "maxLength": 80, "description": "Ex: 'calculadora trabalhista', 'consulta de NCM', 'gestao de obrigacoes'." },
+              "nota": { "type": "string", "maxLength": 300 }
+            }
+          },
+          "description": "Ferramentas adicionais que o usuario quer declarar."
+        }
+      }
+    },
+    "connectors": {
+      "type": "object",
+      "description": "Conectores oficiais da Anthropic (via Claude app ou Claude Code) que o usuario ja conectou a sua conta. Skills leem para adaptar sugestoes de automacao. SEMPRE OPT-IN - nada habilitado por default.",
+      "additionalProperties": false,
+      "properties": {
+        "available": {
+          "type": "array",
+          "description": "Lista de conectores Anthropic disponiveis que o usuario declarou ter conectado.",
+          "items": {
+            "type": "string",
+            "enum": [
+              "gmail",
+              "gdrive",
+              "gcalendar",
+              "gdocs",
+              "gsheets",
+              "slack",
+              "github",
+              "notion",
+              "asana",
+              "linear",
+              "jira",
+              "zoom",
+              "microsoft-outlook",
+              "microsoft-teams",
+              "microsoft-onedrive",
+              "dropbox",
+              "zapier",
+              "make",
+              "custom-mcp"
+            ]
+          }
+        },
+        "notes": {
+          "type": ["string", "null"],
+          "maxLength": 500,
+          "description": "Notas livres do usuario sobre conectores."
+        }
+      }
+    },
+    "automations": {
+      "type": "object",
+      "description": "Automacoes agendadas que o usuario ativou via /start. Opt-in.",
+      "additionalProperties": false,
+      "properties": {
+        "email_triage": {
+          "type": "object",
+          "properties": {
+            "enabled": { "type": "boolean", "default": false },
+            "cron": { "type": "string" },
+            "mcp": { "type": "string", "description": "Nome do MCP conector (ex: 'gmail')." }
+          }
+        },
+        "calendario_fiscal": {
+          "type": "object",
+          "properties": {
+            "enabled": { "type": "boolean", "default": false },
+            "cron": { "type": "string", "description": "Alerta recorrente de obrigacoes e prazos fiscais." }
+          }
+        },
+        "weekly_report": {
+          "type": "object",
+          "properties": {
+            "enabled": { "type": "boolean", "default": false },
+            "cron": { "type": "string", "default": "0 8 * * 1" }
+          }
+        },
+        "legislacao_watch": {
+          "type": "object",
+          "properties": {
+            "enabled": { "type": "boolean", "default": false },
+            "topics": {
+              "type": "array",
+              "items": { "type": "string" }
+            },
+            "cron": { "type": "string" }
+          }
+        }
+      }
+    },
+    "preferences": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "idioma": {
+          "type": "string",
+          "enum": ["pt-BR"],
+          "default": "pt-BR"
+        },
+        "output_format_preferido": {
+          "type": "string",
+          "enum": ["docx", "pdf", "xlsx", "md"],
+          "default": "docx"
+        },
+        "modo_melhor_saida": {
+          "type": "string",
+          "enum": ["recomendar-e-listar", "apenas-listar"],
+          "default": "recomendar-e-listar",
+          "description": "Comportamento da skill planejamento-melhor-saida-fiscal. 'recomendar-e-listar' = recomenda a melhor opcao E lista as alternativas (default). 'apenas-listar' = apresenta as opcoes sem recomendar, o contador decide."
+        },
+        "papel_timbrado_path": {
+          "type": ["string", "null"],
+          "description": "Path opcional para .docx de papel timbrado do escritorio. Se null, usa template default do plugin."
+        },
+        "sync_folder_warning_acknowledged": {
+          "type": "boolean",
+          "default": false,
+          "description": "True se usuario reconheceu warning de pasta sincronizada (iCloud/OneDrive/Dropbox). Evita warning repetido."
+        },
+        "memory_evolver_session_muted": {
+          "type": "boolean",
+          "default": false,
+          "description": "Escape session-only: se true, o hook PostToolUse nao registra pending. Reseta para false no proximo SessionStart por padrao."
+        },
+        "cowork_sync_session_muted": {
+          "type": "boolean",
+          "default": false,
+          "description": "Escape session-only: se true, avisos de divergencia multi-dispositivo ficam silenciados ate o fim da sessao."
+        }
+      }
+    },
+    "wizard_state": {
+      "type": "object",
+      "description": "Estado do wizard /start. Permite retomada se interrompido.",
+      "additionalProperties": false,
+      "properties": {
+        "completed": {
+          "type": "boolean",
+          "default": false
+        },
+        "current_step": {
+          "type": "string",
+          "description": "Passo atual se incompleto. Ex: 'identity', 'localizacao', 'frentes', 'skills', 'tom', 'review'."
+        },
+        "completed_steps": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "last_interaction_at": {
+          "type": "string",
+          "format": "date-time"
+        }
+      }
+    }
+  }
+}

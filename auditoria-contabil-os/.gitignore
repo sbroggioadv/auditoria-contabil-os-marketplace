@@ -1,0 +1,99 @@
+# macOS
+.DS_Store
+._*
+.AppleDouble
+.LSOverride
+Icon
+
+# Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.cursor/
+
+# Node
+node_modules/
+npm-debug.log
+yarn-debug.log
+yarn-error.log
+pnpm-debug.log
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+.venv/
+*.egg-info/
+.pytest_cache/
+
+# Build artifacts
+build/
+*.tgz
+*.zip
+# Excecao: zips de release distribuidos via dist/ (publicados explicitamente)
+!dist/
+!dist/*.zip
+
+# Cowork local data — NUNCA commitar (LGPD)
+.cowork/
+.dev-adv/
+cowork-state.json
+persona.md
+*.client-data.*
+clients/
+**/MEMORY.md.local
+
+# Secrets
+.env
+.env.local
+.env.*.local
+config.env
+*.key
+*.pem
+credentials.json
+
+# Logs
+logs/
+*.log
+.npm
+.yarn-integrity
+
+# Temp
+tmp/
+temp/
+*.tmp
+
+# Test outputs
+coverage/
+.nyc_output/
+test-results/
+
+# OS-generated
+.directory
+.fuse_hidden*
+.nfs*
+
+# Plugin builds (gerados a partir da fonte)
+*.plugin.backup-*
+*.plugin.NOVO
+*.plugin.OLD
+
+# Claude Code workspace local (paths absolutos, COWORK_PERSONA — nao versionar)
+.claude/
+.claude/settings.local.json
+
+# Cowork local data — pasta de casos do operador (LGPD)
+auditoria-contabil/
+casos/
