@@ -4,6 +4,8 @@ description: >
   Wizard de configuracao inicial do plugin no ambiente do escritorio contabil. Coleta a identidade do contador responsavel (nome, CRC e UF do CRC), o escritorio, o municipio e a UF de atuacao (eixo critico de localizacao — ISS municipal, ICMS estadual), as frentes de atuacao, os sujeitos atendidos (PJ/PF), o tom de voz e o modo de melhor saida fiscal. Grava a persona local fora do plugin. Aciona: configurar plugin, primeira vez, /start-auditoria-contabil, onboarding, instalar, comecar a usar.
 ---
 
+> **🖱️ Escolhas = botoes:** em campos de **lista fechada** (AREA_FOCO, tom, modo, atualizar/recriar, sim/nao) use a ferramenta **AskUserQuestion** para mostrar **botoes clicaveis** (max. 4 por pergunta; se houver mais, divida em 2). **Texto livre** (nome, OAB, cidade, e-mail) segue como pergunta digitada normal.
+
 # ONBOARDING CONTABIL
 
 > Wizard de configuracao inicial **Tier 0**. Linguagem acolhedora, tom didatico. Conduz o operador a configurar o plugin ao perfil do escritorio contabil — com atencao especial a **localizacao** (municipio + UF), que e o eixo de toda apuracao de ISS e ICMS.
