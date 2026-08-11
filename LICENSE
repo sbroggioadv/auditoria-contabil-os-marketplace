@@ -1,21 +1,76 @@
-MIT License
+LICENÇA DE USO — AUDITORIA CONTABIL OS
+IA Combativa · © 2026
 
-Copyright (c) 2026 IA Combativa Adv-OS
+═══════════════════════════════════════════════════════════════════
 
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
+0. HISTÓRICO E CORTE DE LICENCIAMENTO (leia primeiro)
 
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
+   Até 11/08/2026, este repositório foi distribuído sob a licença MIT. As
+   cópias obtidas até essa data — incluindo as versões v0.1.x e anteriores,
+   e os forks já existentes — PERMANECEM sob os termos da MIT. Nada nesta
+   licença revoga, nem pretende revogar, uma concessão já feita.
 
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.
+   A partir de 11/08/2026, o titular deixa de oferecer este software sob MIT.
+   Toda cópia obtida a partir dessa data é regida pelos termos abaixo.
+
+1. ESTE REPOSITÓRIO NÃO É SOFTWARE LIVRE
+
+   O acesso ao código é público por conveniência de instalação, não por
+   gratuidade. O uso é condicionado à aquisição da licença.
+
+   Preço: R$ 198,00 — pagamento único, sem assinatura ou recorrência.
+   Aquisição: https://pay.kirvano.com/8b11259c-700f-4781-827c-64e5f5818589
+
+2. CONCESSÃO
+
+   Mediante a aquisição, o titular concede ao COMPRADOR licença de uso
+   pessoal, individual e intransferível, sem prazo, da versão adquirida,
+   no seu escritório ou atividade profissional.
+
+3. VEDAÇÕES
+
+   Salvo autorização escrita e específica do titular, é vedado:
+   • redistribuir, publicar, revender ou sublicenciar o código, no todo
+     ou em parte;
+   • disponibilizar cópia a terceiros, inclusive por fork público,
+     espelho, repositório derivado ou pacote;
+   • usar a marca "IA Combativa" ou apresentar-se como autor, coautor ou
+     revendedor do produto;
+   • remover ou alterar créditos, avisos de licença e identificação de
+     origem.
+
+4. FORK E CLONE
+
+   Forkar ou clonar este repositório a partir de 11/08/2026 implica adesão a
+   esta licença. Quem o fizer deve efetuar o pagamento em
+   https://pay.kirvano.com/8b11259c-700f-4781-827c-64e5f5818589
+   e enviar o comprovante para luis@sbroggio.com.br.
+
+   Os forks deste repositório são públicos no GitHub e são registrados
+   pelo titular (data, conta e repositório).
+
+   O titular não pretende cobrança automática nem débito por ato de fork:
+   esta cláusula estabelece a obrigação de pagar pelo uso, cuja exigência
+   se dá pelas vias ordinárias.
+
+5. SEM GARANTIA
+
+   O software é fornecido "no estado em que se encontra", sem garantia de
+   qualquer natureza. Não substitui análise profissional nem assegura
+   resultado. A responsabilidade pelo uso é do COMPRADOR.
+
+6. PROPRIEDADE INTELECTUAL
+
+   O código, a documentação e os materiais são protegidos pelas Leis
+   9.610/1998 e 9.609/1998. A titularidade permanece com a IA Combativa.
+
+7. FORO
+
+   Legislação brasileira. Foro: Comarca de São Paulo — SP.
+
+8. CONTATO
+
+   luis@sbroggio.com.br
+
+═══════════════════════════════════════════════════════════════════
+AUDITORIA CONTABIL OS · IA Combativa · licenciamento vigente desde 11/08/2026
