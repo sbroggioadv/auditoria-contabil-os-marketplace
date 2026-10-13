@@ -1,14 +1,16 @@
 {
-  "SessionStart": [
-    {
-      "matcher": "",
-      "hooks": [
-        {
-          "type": "command",
-          "command": "echo '[auditoria-contabil-os] Plugin de contabilidade e auditoria ativo. Rode /start-auditoria-contabil para configurar. Fiscal, SPED, obrigacoes e folha (PJ e PF).'",
-          "timeout": 5
-        }
-      ]
-    }
-  ]
+  "hooks": {
+    "SessionStart": [
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "echo '[auditoria-contabil-os] Plugin de contabilidade e auditoria ativo. Rode /start-auditoria-contabil para configurar. Fiscal, SPED, obrigacoes e folha (PJ e PF).'",
+            "timeout": 5
+          }
+        ]
+      }
+    ]
+  }
 }
